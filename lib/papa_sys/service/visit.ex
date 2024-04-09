@@ -1,0 +1,31 @@
+defmodule PapaSys.Service.Visit do
+  use Ecto.Schema
+  import Ecto.Changeset
+
+  schema "visits" do
+    field :visit_date, :date
+    field :visit_duration, :integer
+
+    belongs_to :user, PapaSys.Client.User, foreign_key: :user_id
+    timestamps(type: :utc_datetime)
+  end
+
+  @required_fields ~w(visit_date visit_duration user_id)a
+  @doc false
+  def changeset(visit, attrs) do
+    visit
+    |> cast(attrs, [:visit_date, :visit_duration, :user_id])
+    |> validate_required(@required_fields)
+    |> validate_number(:visit_duration, greater_than: 0)
+    |> validate_visit_date(:visit_date)
+  end
+
+  defp validate_visit_date(changeset, field) do
+    validate_change(changeset, field, fn _field, value ->
+      cond do
+        (Date.compare(value, Date.utc_today) == :eq) || (Date.compare(value, Date.utc_today) == :gt) -> []
+        true -> [{field, "cannot be in the past"}]
+      end
+    end)
+  end
+end
