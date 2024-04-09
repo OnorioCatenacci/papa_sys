@@ -7,5 +7,6 @@ defmodule PapaSysWeb.Router do
 
   scope "/api", PapaSysWeb do
     pipe_through :api
+    resources "/users", UserController
   end
 end
