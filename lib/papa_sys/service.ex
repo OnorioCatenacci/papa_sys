@@ -2,7 +2,7 @@ defmodule PapaSys.Service do
   @moduledoc """
   The Service context.
   """
-  
+
   import Ecto.Query, warn: false
   alias PapaSys.Repo
 

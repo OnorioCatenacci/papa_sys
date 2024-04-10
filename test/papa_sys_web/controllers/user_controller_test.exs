@@ -19,7 +19,13 @@ defmodule PapaSysWeb.UserControllerTest do
     email_address: "some updated email_address",
     account_minutes: 43
   }
-  @invalid_attrs %{role: nil, first_name: nil, last_name: nil, email_address: nil, account_minutes: nil}
+  @invalid_attrs %{
+    role: nil,
+    first_name: nil,
+    last_name: nil,
+    email_address: nil,
+    account_minutes: nil
+  }
 
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}

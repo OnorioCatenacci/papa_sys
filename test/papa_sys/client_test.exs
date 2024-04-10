@@ -8,7 +8,13 @@ defmodule PapaSys.ClientTest do
 
     import PapaSys.ClientFixtures
 
-    @invalid_attrs %{role: nil, first_name: nil, last_name: nil, email_address: nil, account_minutes: nil}
+    @invalid_attrs %{
+      role: nil,
+      first_name: nil,
+      last_name: nil,
+      email_address: nil,
+      account_minutes: nil
+    }
 
     test "list_users/0 returns all users" do
       user = user_fixture()
@@ -21,7 +27,13 @@ defmodule PapaSys.ClientTest do
     end
 
     test "create_user/1 with valid data creates a user" do
-      valid_attrs = %{role: "member", first_name: "some first_name", last_name: "some last_name", email_address: "some email_address", account_minutes: 42}
+      valid_attrs = %{
+        role: "member",
+        first_name: "some first_name",
+        last_name: "some last_name",
+        email_address: "some email_address",
+        account_minutes: 42
+      }
 
       assert {:ok, %User{} = user} = Client.create_user(valid_attrs)
       assert user.role == "member"
@@ -37,7 +49,14 @@ defmodule PapaSys.ClientTest do
 
     test "update_user/2 with valid data updates the user" do
       user = user_fixture()
-      update_attrs = %{role: "member", first_name: "some updated first_name", last_name: "some updated last_name", email_address: "some updated email_address", account_minutes: 43}
+
+      update_attrs = %{
+        role: "member",
+        first_name: "some updated first_name",
+        last_name: "some updated last_name",
+        email_address: "some updated email_address",
+        account_minutes: 43
+      }
 
       assert {:ok, %User{} = user} = Client.update_user(user, update_attrs)
       assert user.role == "member"

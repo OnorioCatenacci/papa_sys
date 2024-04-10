@@ -8,7 +8,7 @@ defmodule PapaSys.ServiceTest do
 
     import PapaSys.ServiceFixtures
 
-    @invalid_attrs %{visit_date: Date.add(DateTime.utc_now(),-2), visit_duration: -1}
+    @invalid_attrs %{visit_date: Date.add(DateTime.utc_now(), -2), visit_duration: -1}
 
     # On all test cases we need to have a user created before the visit and/or the transaction can get inserted due to 
     # the foreign key constraints.
@@ -106,7 +106,8 @@ defmodule PapaSys.ServiceTest do
       transaction = transaction_fixture(user, visit)
       update_attrs = %{}
 
-      assert {:ok, %Transaction{} = _transaction} = Service.update_transaction(transaction, update_attrs)
+      assert {:ok, %Transaction{} = _transaction} =
+               Service.update_transaction(transaction, update_attrs)
     end
 
     test "delete_transaction/1 deletes the transaction" do

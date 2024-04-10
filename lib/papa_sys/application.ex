@@ -11,8 +11,7 @@ defmodule PapaSys.Application do
       PapaSysWeb.Telemetry,
       PapaSys.Repo,
       {Ecto.Migrator,
-        repos: Application.fetch_env!(:papa_sys, :ecto_repos),
-        skip: skip_migrations?()},
+       repos: Application.fetch_env!(:papa_sys, :ecto_repos), skip: skip_migrations?()},
       {DNSCluster, query: Application.get_env(:papa_sys, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: PapaSys.PubSub},
       # Start a worker by calling: PapaSys.Worker.start_link(arg)

@@ -8,7 +8,6 @@ defmodule PapaSys.ServiceFixtures do
   Generate a visit.
   """
   def visit_fixture(user, attrs \\ %{}) do
-
     tomorrow = Date.add(Date.utc_today(), 1)
 
     {:ok, visit} =
@@ -16,7 +15,7 @@ defmodule PapaSys.ServiceFixtures do
       |> Enum.into(%{
         user_id: user.id,
         visit_date: tomorrow,
-        visit_duration: 60,
+        visit_duration: 60
       })
       |> PapaSys.Service.create_visit()
 
