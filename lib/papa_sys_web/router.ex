@@ -9,5 +9,6 @@ defmodule PapaSysWeb.Router do
     pipe_through :api
     resources "/users", UserController
     resources "/visits", VisitController
+    resources "/transactions", TransactionController
   end
 end
