@@ -26,11 +26,11 @@ In order to help guide my development efforts I've created a few use cases that 
 ## Client
 
 1. I need to be able to create a new member, a new pal or a new user that fulfills both of those roles.
+    * _(Simplifying assumption)_ I do not need to confirm the email address is real.
     * Unhappy paths to address:
       1. No first or last name provided
       2. No email provided
-      3. Email already exists in the system
-      4. Attempting to set a negative (or too high) beginning balance
+      3. Attempting to set a negative beginning balance.
 
 2. I need to be able to update a member, a pal or a user that fulfills both of those roles. 
     * Updating use cases:
@@ -50,3 +50,100 @@ In order to help guide my development efforts I've created a few use cases that 
 ## Transaction
 1. I need to be able to create a transaction involving a specified member and a specified pal.
 
+# Testing
+
+I prefer to use Postman for testing the REST API but any tool which allows a developer to directly interact with the API should work fine.  I'll lay out each of the tests below. Each of these tests assume you've already started the REST API server via `mix phx.server`.
+
+## Client
+
+1. Create a new member
+
+Method: POST
+URL: http://localhost:4000/api/users
+Body:
+```json
+{
+    "user": {
+        "role": "pal",
+        "first_name": "John",
+        "last_name": "Doe",
+        "email": "nowhere@nomail.com",
+        "account_minutes": 0
+    }
+}
+```
+Expected result: 201 Created
+
+2. Attempt to create a new member with an empty first name:
+
+Method: POST
+URL: http://localhost:4000/api/users
+Body:
+```json
+{
+    "user": {
+        "role": "pal",
+        "first_name": "",
+        "last_name": "Doe",
+        "email": "nowhere@nomail.com",
+        "account_minutes": 0
+    }
+}
+```
+Expected result: 422 Unprocessable Entity 
+
+3. Attempt to create a new member with an empty last name:
+
+Method: POST
+URL: http://localhost:4000/api/users
+Body:
+```json
+{
+    "user": {
+        "role": "pal",
+        "first_name": "John",
+        "last_name": "",
+        "email": "nowhere@nomail.com",
+        "account_minutes": 0
+    }
+}
+```
+Expected result: 422 Unprocessable Entity 
+
+4. Attempt to create a new member with an empty email:
+
+Method: POST
+URL: http://localhost:4000/api/users
+Body:
+```json
+{
+    "user": {
+        "role": "pal",
+        "first_name": "John",
+        "last_name": "Doe",
+        "email": "",
+        "account_minutes": 0
+    }
+}
+```
+
+Expected result: 422 Unprocessable Entity
+
+5. Attempt to create a new member with negative initial balance:
+
+Method: POST
+URL: http://localhost:4000/api/users
+Body:
+```json
+{
+    "user": {
+        "role": "pal",
+        "first_name": "John",
+        "last_name": "Doe",
+        "email": "nowhere@nomail.com",
+        "account_minutes": -1
+    }
+}
+```
+
+Expected result: 422 Unprocessable Entity
