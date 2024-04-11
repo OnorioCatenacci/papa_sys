@@ -51,4 +51,4 @@ In order to help guide my development efforts I've created a few use cases that 
 1. I need to be able to create a transaction involving a specified member and a specified pal.
 
 # Testing the REST API
-Refer to the [TESTING.md](./TESTING.Md) file for details on how to test the REST API.
+Refer to the [TESTING.md](./TESTING.md) file for details on how to test the REST API.
