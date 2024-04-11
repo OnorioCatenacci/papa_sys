@@ -25,9 +25,10 @@ defmodule PapaSys.Service.Transaction do
 
   def validate_time_is_available(changeset, field) do
     validate_change(changeset, field, fn _field, _value ->
-      with {:ok, time_available_for_visits} <- PapaSys.Client.time_available(get_field(changeset, :member_id)),
+      with {:ok, time_available_for_visits} <-
+             PapaSys.Client.time_available(get_field(changeset, :member_id)),
            {:ok, requested_visit_duration} <-
-             PapaSys.Service.requested_duration_of_visit(get_field(changeset,:visit_id)) do
+             PapaSys.Service.requested_duration_of_visit(get_field(changeset, :visit_id)) do
         # The person requesting the visit must have at least 
         required_time = ceil(requested_visit_duration * 1.15)
         # 15% more time available than the requested visit duration
