@@ -101,4 +101,24 @@ defmodule PapaSys.Client do
   def change_user(%User{} = user, attrs \\ %{}) do
     User.changeset(user, attrs)
   end
+
+  @doc """
+  Returns a tuple containing either 
+  {:ok, time_available} for a valid user or 
+  {:error, :invalid_user} for an invalid user.
+  """
+  @spec time_available(integer) :: {:ok, integer} | {:error, :invalid_user}
+  def time_available(user_id) do
+    if not user_exists?(user_id) do
+      alias PapaSys.Repo
+      {:error, :invalid_user}
+    else
+      user = get_user!(user_id)
+      {:ok, user.account_minutes}
+    end
+  end
+
+  defp user_exists?(id) do
+    Repo.get(User, id) != nil
+  end
 end

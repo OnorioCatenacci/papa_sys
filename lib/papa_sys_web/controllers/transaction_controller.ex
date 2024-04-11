@@ -28,7 +28,8 @@ defmodule PapaSysWeb.TransactionController do
   def update(conn, %{"id" => id, "transaction" => transaction_params}) do
     transaction = Service.get_transaction!(id)
 
-    with {:ok, %Transaction{} = transaction} <- Service.update_transaction(transaction, transaction_params) do
+    with {:ok, %Transaction{} = transaction} <-
+           Service.update_transaction(transaction, transaction_params) do
       render(conn, :show, transaction: transaction)
     end
   end

@@ -102,6 +102,21 @@ defmodule PapaSys.Service do
     Visit.changeset(visit, attrs)
   end
 
+  @spec requested_duration_of_visit(visit_id :: Integer) ::
+          {:ok, Integer} | {:error, :invalid_visit_id}
+  def requested_duration_of_visit(visit_id) do
+    if not visit_exists?(visit_id) do
+      {:error, :invalid_visit_id}
+    else
+      visit = get_visit!(visit_id)
+      {:ok, visit.visit_duration}
+    end
+  end
+
+  defp visit_exists?(id) do
+    Repo.get(Visit, id) != nil
+  end
+
   alias PapaSys.Service.Transaction
 
   @doc """
