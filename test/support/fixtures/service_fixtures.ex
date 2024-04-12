@@ -7,13 +7,13 @@ defmodule PapaSys.ServiceFixtures do
   @doc """
   Generate a visit.
   """
-  def visit_fixture(user, attrs \\ %{}) do
+  def visit_fixture(member, attrs \\ %{}) do
     tomorrow = Date.add(Date.utc_today(), 1)
 
     {:ok, visit} =
       attrs
       |> Enum.into(%{
-        user_id: user.id,
+        user_id: member.id,
         visit_date: tomorrow,
         visit_duration: 60
       })
@@ -25,12 +25,12 @@ defmodule PapaSys.ServiceFixtures do
   @doc """
   Generate a transaction.
   """
-  def transaction_fixture(user, visit, attrs \\ %{}) do
+  def transaction_fixture(member, pal, visit, attrs \\ %{}) do
     {:ok, transaction} =
       attrs
       |> Enum.into(%{
-        member_id: user.id,
-        pal_id: user.id,
+        member_id: member.id,
+        pal_id: pal.id,
         visit_id: visit.id
       })
       |> PapaSys.Service.create_transaction()

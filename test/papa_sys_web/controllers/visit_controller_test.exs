@@ -34,7 +34,7 @@ defmodule PapaSysWeb.VisitControllerTest do
   describe "create visit" do
     test "renders visit when data is valid", %{conn: conn} do
       # Need to insert a user so the foreign key works correctly
-      PapaSys.ClientFixtures.user_fixture()
+      PapaSys.ClientFixtures.member_fixture()
       conn = post(conn, ~p"/api/visits", visit: @create_attrs)
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
@@ -89,7 +89,7 @@ defmodule PapaSysWeb.VisitControllerTest do
   end
 
   defp create_visit(_) do
-    user = PapaSys.ClientFixtures.user_fixture()
+    user = PapaSys.ClientFixtures.member_fixture()
     visit = visit_fixture(user)
     %{visit: visit}
   end

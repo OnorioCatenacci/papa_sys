@@ -5,17 +5,35 @@ defmodule PapaSys.ClientFixtures do
   """
 
   @doc """
-  Generate a user.
+  Generate a member user.
   """
-  def user_fixture(attrs \\ %{}) do
+  def member_fixture(attrs \\ %{}) do
     {:ok, user} =
       attrs
       |> Enum.into(%{
-        account_minutes: 42,
+        account_minutes: 240,
         email_address: "some email_address",
         first_name: "some first_name",
         last_name: "some last_name",
         role: "member"
+      })
+      |> PapaSys.Client.create_user()
+
+    user
+  end
+
+  @doc """
+  Generate a pal user.
+  """
+  def pal_fixture(attrs \\ %{}) do
+    {:ok, user} =
+      attrs
+      |> Enum.into(%{
+        account_minutes: 240,
+        email_address: "pal@pal.com",
+        first_name: "Joe",
+        last_name: "Doe",
+        role: "pal"
       })
       |> PapaSys.Client.create_user()
 

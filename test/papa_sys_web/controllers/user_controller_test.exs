@@ -100,7 +100,7 @@ defmodule PapaSysWeb.UserControllerTest do
   end
 
   defp create_user(_) do
-    user = user_fixture()
+    user = member_fixture()
     %{user: user}
   end
 end

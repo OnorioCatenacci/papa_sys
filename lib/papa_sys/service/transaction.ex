@@ -57,7 +57,7 @@ defmodule PapaSys.Service.Transaction do
 
   def validate_pal_in_transaction(changeset, field) do
     validate_change(changeset, field, fn _field, _value ->
-      if PapaSys.Client.is_pal?(get_field(changeset, :member_id)) do
+      if PapaSys.Client.is_pal?(get_field(changeset, :pal_id)) do
         []
       else
         [{field, "Only a user in the role of a pal can fulfill a visit"}]

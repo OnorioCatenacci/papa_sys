@@ -7,11 +7,11 @@ defmodule PapaSysWeb.TransactionControllerTest do
 
   @create_attrs %{
     member_id: 1,
-    pal_id: 1,
+    pal_id: 2,
     visit_id: 1
   }
   @update_attrs %{
-    member_id: 2,
+    member_id: 1,
     pal_id: 2,
     visit_id: 2
   }
@@ -30,8 +30,10 @@ defmodule PapaSysWeb.TransactionControllerTest do
 
   describe "create transaction" do
     test "renders transaction when data is valid", %{conn: conn} do
-      user = PapaSys.ClientFixtures.user_fixture()
-      _visit = visit_fixture(user)
+      member = PapaSys.ClientFixtures.member_fixture()
+      _visit = visit_fixture(member)
+      _pal = PapaSys.ClientFixtures.pal_fixture()
+
       conn = post(conn, ~p"/api/transactions", transaction: @create_attrs)
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
@@ -40,7 +42,7 @@ defmodule PapaSysWeb.TransactionControllerTest do
       assert %{
                "id" => ^id,
                "member_id" => 1,
-               "pal_id" => 1,
+               "pal_id" => 2,
                "visit_id" => 1
              } = json_response(conn, 200)["data"]
     end
@@ -58,7 +60,7 @@ defmodule PapaSysWeb.TransactionControllerTest do
       conn: conn,
       transaction: %Transaction{id: id} = transaction
     } do
-      user = PapaSys.ClientFixtures.user_fixture()
+      user = PapaSys.ClientFixtures.member_fixture()
       _visit = visit_fixture(user)
       conn = put(conn, ~p"/api/transactions/#{transaction}", transaction: @update_attrs)
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
@@ -67,7 +69,7 @@ defmodule PapaSysWeb.TransactionControllerTest do
 
       assert %{
                "id" => ^id,
-               "member_id" => 2,
+               "member_id" => 1,
                "pal_id" => 2,
                "visit_id" => 2
              } = json_response(conn, 200)["data"]
@@ -93,9 +95,10 @@ defmodule PapaSysWeb.TransactionControllerTest do
   end
 
   defp create_transaction(_) do
-    user = PapaSys.ClientFixtures.user_fixture()
-    visit = visit_fixture(user)
-    transaction = transaction_fixture(user, visit)
+    member = PapaSys.ClientFixtures.member_fixture()
+    pal = PapaSys.ClientFixtures.pal_fixture()
+    visit = visit_fixture(member)
+    transaction = transaction_fixture(member, pal, visit)
     %{transaction: transaction}
   end
 end

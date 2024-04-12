@@ -17,12 +17,12 @@ defmodule PapaSys.ClientTest do
     }
 
     test "list_users/0 returns all users" do
-      user = user_fixture()
+      user = member_fixture()
       assert Client.list_users() == [user]
     end
 
     test "get_user!/1 returns the user with given id" do
-      user = user_fixture()
+      user = member_fixture()
       assert Client.get_user!(user.id) == user
     end
 
@@ -48,7 +48,7 @@ defmodule PapaSys.ClientTest do
     end
 
     test "update_user/2 with valid data updates the user" do
-      user = user_fixture()
+      user = member_fixture()
 
       update_attrs = %{
         role: "member",
@@ -67,19 +67,19 @@ defmodule PapaSys.ClientTest do
     end
 
     test "update_user/2 with invalid data returns error changeset" do
-      user = user_fixture()
+      user = member_fixture()
       assert {:error, %Ecto.Changeset{}} = Client.update_user(user, @invalid_attrs)
       assert user == Client.get_user!(user.id)
     end
 
     test "delete_user/1 deletes the user" do
-      user = user_fixture()
+      user = member_fixture()
       assert {:ok, %User{}} = Client.delete_user(user)
       assert_raise Ecto.NoResultsError, fn -> Client.get_user!(user.id) end
     end
 
     test "change_user/1 returns a user changeset" do
-      user = user_fixture()
+      user = member_fixture()
       assert %Ecto.Changeset{} = Client.change_user(user)
     end
   end
