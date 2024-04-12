@@ -25,7 +25,7 @@ defmodule PapaSys.Service.Transaction do
     |> validate_pal_in_transaction(:pal_id)
   end
 
-  def validate_time_is_available(changeset, field) do
+  defp validate_time_is_available(changeset, field) do
     validate_change(changeset, field, fn _field, _value ->
       with {:ok, time_available_for_visits} <-
              PapaSys.Client.time_available(get_field(changeset, :member_id)),
@@ -45,7 +45,7 @@ defmodule PapaSys.Service.Transaction do
     end)
   end
 
-  def validate_member_in_transaction(changeset, field) do
+  defp validate_member_in_transaction(changeset, field) do
     validate_change(changeset, field, fn _field, _value ->
       if PapaSys.Client.is_member?(get_field(changeset, :member_id)) do
         []
@@ -55,7 +55,7 @@ defmodule PapaSys.Service.Transaction do
     end)
   end
 
-  def validate_pal_in_transaction(changeset, field) do
+  defp validate_pal_in_transaction(changeset, field) do
     validate_change(changeset, field, fn _field, _value ->
       if PapaSys.Client.is_pal?(get_field(changeset, :pal_id)) do
         []
