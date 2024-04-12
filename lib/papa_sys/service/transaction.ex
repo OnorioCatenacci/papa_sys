@@ -21,6 +21,8 @@ defmodule PapaSys.Service.Transaction do
     |> foreign_key_constraint(:pal_id_fk, message: "Pal not found in users list")
     |> foreign_key_constraint(:visit_id_fk, message: "Visit not found in visits list")
     |> validate_time_is_available(:member_id)
+    |> validate_member_in_transaction(:member_id)
+    |> validate_pal_in_transaction(:pal_id)
   end
 
   def validate_time_is_available(changeset, field) do
@@ -39,6 +41,26 @@ defmodule PapaSys.Service.Transaction do
         end
       else
         _ -> [{field, "Not enough time available for the visit"}]
+      end
+    end)
+  end
+
+  def validate_member_in_transaction(changeset, field) do
+    validate_change(changeset, field, fn _field, _value ->
+      if PapaSys.Client.is_member?(get_field(changeset, :member_id)) do
+        []
+      else
+        [{field, "The user requesting a visit must be a member"}]
+      end
+    end)
+  end
+
+  def validate_pal_in_transaction(changeset, field) do
+    validate_change(changeset, field, fn _field, _value ->
+      if PapaSys.Client.is_pal?(get_field(changeset, :member_id)) do
+        []
+      else
+        [{field, "Only a user in the role of a pal can fulfill a visit"}]
       end
     end)
   end

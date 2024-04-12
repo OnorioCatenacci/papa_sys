@@ -5,6 +5,8 @@ I prefer to use Postman for testing the REST API but any tool which allows a dev
 
 ### Set up
 
+IMPORTANT NOTE: I'm only suggesting this as a means of testing since this is a coding challenge.  If this were real production code, I would recommend _not_ using this approach even in a development version of the DB for the simple fact that dropping the entire DB can ruin lots of other folks' work. As I say, this is a coding challenge so it seems ok to do in this limited circumstance.
+
 1. Assuming the database has been created, run the following command to create the tables:
 
 ```bash

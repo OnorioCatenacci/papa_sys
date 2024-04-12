@@ -22,6 +22,7 @@ defmodule PapaSys.Service.Visit do
     |> validate_required(@required_fields)
     |> validate_number(:visit_duration, greater_than: 0)
     |> validate_visit_date(:visit_date)
+    |> validate_pal_is_requesting_visit(:user_id)
   end
 
   defp validate_visit_date(changeset, field) do
@@ -33,6 +34,16 @@ defmodule PapaSys.Service.Visit do
 
         true ->
           [{field, "cannot be in the past"}]
+      end
+    end)
+  end
+
+  defp validate_pal_is_requesting_visit(changeset, field) do
+    validate_change(changeset, field, fn _field, _value ->
+      if PapaSys.Client.is_pal?(get_field(changeset, :user_id)) do
+        []
+      else
+        [{field, "A user who is not a pal cannot request a visit"}]
       end
     end)
   end

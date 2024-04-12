@@ -118,6 +118,35 @@ defmodule PapaSys.Client do
     end
   end
 
+  @doc """
+  We want to determine if the user is a pal.  Pals can fulfill a visit request and members can request a visit.
+
+  Note: the user_exists? function is a call to the DB and the get_user! is also a call.  If this were production code, using two calls where one would work, is poor performance.  However, since this is demonstration code for a coding challenge I'm not going to fix this.
+
+  """
+  @spec is_pal?(integer) :: boolean
+  def is_pal?(user_id) do
+    if not user_exists?(user_id) do
+      false
+    else
+      user = get_user!(user_id)
+      user.role == "pal" || user.role == "both"
+    end
+  end
+
+  @doc """
+  We want to determine if the user is a member.  Pals can fulfill a visit request and members can request a visit.
+  """
+  @spec is_member?(integer) :: boolean
+  def is_member?(user_id) do
+    if not user_exists?(user_id) do
+      false
+    else
+      user = get_user!(user_id)
+      user.role == "member" || user.role == "both"
+    end
+  end
+
   defp user_exists?(id) do
     Repo.get(User, id) != nil
   end
